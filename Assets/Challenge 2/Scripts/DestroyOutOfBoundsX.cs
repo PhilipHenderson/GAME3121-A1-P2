@@ -6,8 +6,13 @@ public class DestroyOutOfBoundsX : MonoBehaviour
 {
     private float leftLimit = -45;
     private float bottomLimit = -5;
+    PlayerControllerX playerController;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        playerController = GameObject.Find("Player").GetComponent<PlayerControllerX>();
+    }
+
     void Update()
     {
         // Destroy dogs if x position less than left limit
@@ -15,10 +20,15 @@ public class DestroyOutOfBoundsX : MonoBehaviour
         {
             Destroy(gameObject);
         } 
+
         // Destroy balls if y position is less than bottomLimit
         else if (transform.position.y < bottomLimit)
         {
+            Debug.Log("Game Over");
             Destroy(gameObject);
+            playerController.isGameRunning = false;
+            Time.timeScale = 0;
+            playerController.gameOverUI.SetActive(true);
         }
 
     }
